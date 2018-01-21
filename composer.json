@@ -4,7 +4,8 @@
     "description": "Business System for Laravel",
     "keywords": [
         "Sinevia",
-        "CMS"
+        "Laravel",
+        "Business"
     ],
     "homepage": "https://github.com/Sinevia/business",
     "license": "proprietary",
