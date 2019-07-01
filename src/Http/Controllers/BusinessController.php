@@ -3,9 +3,9 @@
 namespace Sinevia\Business\Http\Controllers;
 
 /**
- * Contains simple CMS functionality
+ * Contains the business functionality
  */
-class AccountingController extends \Illuminate\Routing\Controller {
+class BusinessController extends \Illuminate\Routing\Controller {
 
     function anyIndex() {
         return $this->anyDashboard();
