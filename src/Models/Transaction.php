@@ -5,7 +5,7 @@ namespace Sinevia\Business\Models;
 class Transaction extends BaseModel {
     use \Illuminate\Database\Eloquent\SoftDeletes;
 
-    protected $table = 'snv_accounting_transaction';
+    protected $table = 'snv_business_transaction';
     protected $primaryKey = 'Id';
 
     function isCredit(){

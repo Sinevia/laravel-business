@@ -1,6 +1,6 @@
 <?php
 
-namespace Sinevia\Accounting\Models;
+namespace Sinevia\Business\Models;
 
 class Invoice extends BaseModel {
 

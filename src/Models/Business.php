@@ -2,16 +2,15 @@
 
 namespace App\Models\Business;
 
-class Customer extends \App\Models\BaseModel {
+class Business extends \Illuminate\Database\Eloquent\Model {
 
-    protected $table = 'snv_business_customer';
+    protected $table = 'snv_business_business';
     protected $primaryKey = 'Id';
     public $timestamps = false;
     public $incrementing = false;
-    public $useUniqueId = true;
 
-    public function business() {
-        return $this->belongsTo('App\Models\Customers\Business', 'BusinessId', 'Id');
+    public function customers() {
+        return $this->hasMany('App\Models\Customers\Customer', 'BusinessId');
     }
 
     public static function tableCreate() {
@@ -22,12 +21,8 @@ class Customer extends \App\Models\BaseModel {
                         $table->engine = 'InnoDB';
                         $table->string($o->primaryKey, 40)->primary();
                         $table->string('Status', 40)->default('')->index();
-                        $table->string('BusinessId', 40)->index();
                         $table->string('Type', 40)->default('Company'); // Company / Sole Trader
-                        $table->string('CustomerName', 255)->index();
                         $table->string('BusinessName', 255)->index();
-                        $table->string('PersonFirstName', 255)->index();
-                        $table->string('PersonLastName', 255)->index();
                         $table->string('Country', 255)->default('');
                         $table->string('Province', 255)->default('');
                         $table->string('City', 255)->default('');
@@ -35,12 +30,11 @@ class Customer extends \App\Models\BaseModel {
                         $table->string('Address2', 255)->default('');
                         $table->string('PostCode', 255)->default('');
                         $table->string('EmailAddressInvoice', 255)->default('');
-                        $table->string('EmailAddressQuote', 255)->default('');
                         $table->string('Phone', 255)->default('');
-                        $table->datetime('CreatedAt')->default('0000-00-00 00:00:00');
-                        $table->datetime('UpdatedAt')->default('0000-00-00 00:00:00');
-                        $table->datetime('DeletedAt')->default('0000-00-00 00:00:00');
-                        $table->text('Memo');
+                        $table->string('BankSortCode', 255)->default('');
+                        $table->string('AccountNumber', 255)->default('');
+                        $table->datetime('Created')->default('0000-00-00 00:00:00');
+                        $table->datetime('Updated')->default('0000-00-00 00:00:00');
                     });
         }
 
