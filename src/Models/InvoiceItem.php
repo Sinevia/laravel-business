@@ -18,7 +18,7 @@ class InvoiceItem extends BaseModel {
                     $table->engine = 'InnoDB';
                     $table->string($o->primaryKey, 40)->primary();
                     $table->string('Status', 40)->default('')->index();
-                    $table->string('ItemId', 40)->index();
+                    $table->string('InvoiceId', 40)->index();
                     $table->text('Details');
                     $table->float('Units')->default('0.00');
                     $table->decimal('PricePerUnit', 10, 2)->default('0.00');
