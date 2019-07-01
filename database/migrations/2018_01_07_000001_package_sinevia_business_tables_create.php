@@ -1,6 +1,6 @@
 <?php
 
-class PackageSineviaAccountingTablesCreate extends Illuminate\Database\Migrations\Migration {
+class PackageSineviaBusinessTablesCreate extends Illuminate\Database\Migrations\Migration {
 
     /**
      * Run the migrations.
