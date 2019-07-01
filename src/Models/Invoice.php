@@ -38,13 +38,14 @@ class Invoice extends BaseModel {
                     $table->string('CustomerId', 40)->index()->nullable()->default(NULL);
                     $table->string('Currency', 40)->default('GBP')->index();
                     $table->decimal('Discount', 10, 2)->default('0.00');
-                    $table->text('DiscountDescription');
+                    $table->text('DiscountDescription')->nullable()->default(NULL);
                     $table->decimal('Subtotal', 10, 2)->default('0.00');
                     $table->decimal('Tax', 10, 2)->default('0.00');
                     $table->decimal('Total', 10, 2)->default('0.00');
                     $table->datetime('DueAt')->nullable()->default(NULL);
                     $table->datetime('IssuedAt')->nullable()->default(NULL);
                     $table->datetime('PaidAt')->nullable()->default(NULL);
+                    $table->string('Description')->nullable()->default(NULL);
                     $table->text('Memo')->nullable()->default(NULL);
                     $table->datetime('CreatedAt')->nullable()->default(NULL);
                     $table->datetime('UpdatedAt')->nullable()->default(NULL);
