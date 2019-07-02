@@ -47,6 +47,7 @@ class Invoice extends BaseModel {
                     $table->datetime('PaidAt')->nullable()->default(NULL);
                     $table->string('Description')->nullable()->default(NULL);
                     $table->string('Reference', 40)->nullable()->default(NULL);
+                    $table->string('TransactionId', 40)->index()->nullable()->default(NULL);
                     $table->text('Memo')->nullable()->default(NULL);
                     $table->datetime('CreatedAt')->nullable()->default(NULL);
                     $table->datetime('UpdatedAt')->nullable()->default(NULL);

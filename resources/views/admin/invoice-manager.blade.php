@@ -54,11 +54,11 @@
                 </select>
 
                 <button class="btn btn-primary">
-                    <span class="glyphicon glyphicon-search"></span>
+                    <span class="fas fa-search"></span>
                 </button>
 
                 <button type="button" class="btn btn-primary pull-right" onclick="showInvoiceCreateDialog();">
-                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    <span class="fas fa-plus-circle"></span>
                     Add Invoice
                 </button>
             </form>

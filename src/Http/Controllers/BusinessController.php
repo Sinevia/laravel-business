@@ -156,7 +156,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
         $filterFrom = request('filter_from', date('Y-m-01', strtotime('-1year')));
         $filterTo = request('filter_to', date('Y-m-t'));
         $filterCustomerId = request('filter_customer_id', '');
-        $customerList = [];//\Sinevia\Business\Models\Customer::whereStatus('Active')->get();
+        $customerList = \Sinevia\Business\Helpers\Helper::customerInstance()->whereStatus('Active')->get();
 
         $income = [];//$this->getBookings($filterFrom, $filterTo, $filterCustomerId);
         $debit = [];//$this->getDebit($filterFrom, $filterTo, $filterCustomerId);
@@ -352,9 +352,9 @@ class BusinessController extends \Illuminate\Routing\Controller {
         $subtotal = request('Subtotal', old('Subtotal', $invoice->Subtotal));
         $tax = request('Tax', old('Tax', $invoice->Tax));
         $memo = request('Memo', old('Memo', $invoice->Memo));
-        $issuedOn = request('IssuedOn', old('IssuedOn', $invoice->IssuedOn));
-        $paidOn = request('PaidOn', old('PaidOn', $invoice->PaidOn));
-        $dueOn = request('DueOn', old('DueOn', $invoice->DueOn));
+        $issuedOn = request('IssuedOn', old('IssuedOn', $invoice->IssuedAt));
+        $paidOn = request('PaidOn', old('PaidOn', $invoice->PaidAt));
+        $dueOn = request('DueOn', old('DueOn', $invoice->DueAt));
         $reference = request('Reference', old('Reference', $invoice->Reference));
         $transactionId = request('TranasactionId', old('TransactionId', $invoice->TransactionId));
         $discount = request('Discount', old('Discount', $invoice->Discount));
@@ -364,7 +364,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
             $reference = $invoice->getReference();
         }
 
-        $customerList = \Sinevia\Business\Models\Customer::all();
+        $customerList = \Sinevia\Business\Helpers\Helper::customerInstance()->all();
         $statusList = [
             \Sinevia\Business\Models\Invoice::STATUS_DRAFT => 'Draft',
             \Sinevia\Business\Models\Invoice::STATUS_PAID => 'Paid',
@@ -826,9 +826,9 @@ class BusinessController extends \Illuminate\Routing\Controller {
             $invoice->Subtotal = $subtotal;
             $invoice->Tax = $tax;
             $invoice->Total = $total;
-            $invoice->IssuedOn = date('Y-m-d', strtotime($issuedOn));
-            $invoice->PaidOn = $paidOn != '' ? date('Y-m-d', strtotime($paidOn)) : null;
-            $invoice->DueOn = date('Y-m-d', strtotime($dueOn));
+            $invoice->IssuedAt = date('Y-m-d', strtotime($issuedOn));
+            $invoice->PaidAt = $paidOn != '' ? date('Y-m-d', strtotime($paidOn)) : null;
+            $invoice->DueAt = date('Y-m-d', strtotime($dueOn));
             $invoice->Reference = $reference;
             $invoice->TransactionId = $transactionId;
             $invoice->Memo = $memo;
