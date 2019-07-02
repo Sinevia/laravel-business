@@ -2,22 +2,22 @@
 $transactionCount = \Sinevia\Business\Models\Transaction::count();
 $invoicesCount = \Sinevia\Business\Models\Invoice::where('Status', '<>', 'Deleted')->count();
 ?>
-<div class="panel panel-default">
-    <div class="panel-body" style="padding: 2px;">
+<div class="card card-default">
+    <div class="card-body" style="padding: 2px;">
         <ul class="nav nav-pills">
-            <li>
-                <a href="<?php echo \Sinevia\Business\Helpers\Links::adminHome(); ?>">Dashboard</a>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo \Sinevia\Business\Helpers\Links::adminHome(); ?>">Dashboard</a>
             </li>
-            <li>
-                <a href="<?php echo \Sinevia\Business\Helpers\Links::adminTransactionManager(); ?>">
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo \Sinevia\Business\Helpers\Links::adminTransactionManager(); ?>">
                     Transactions
-                    <span class="badge"><?php echo $transactionCount; ?></span>
+                    <span class="badge badge-default"><?php echo $transactionCount; ?></span>
                 </a>
             </li>
-            <li>
-                <a href="<?php echo \Sinevia\Business\Helpers\Links::adminInvoiceManager(); ?>">
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo \Sinevia\Business\Helpers\Links::adminInvoiceManager(); ?>">
                     Invoices
-                    <span class="badge"><?php echo $invoicesCount; ?></span>
+                    <span class="badge badge-default"><?php echo $invoicesCount; ?></span>
                 </a>
             </li>
         </ul>
