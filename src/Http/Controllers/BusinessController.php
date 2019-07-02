@@ -85,7 +85,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
           }
           $data[$year . '.' . $month][] = $b->Price;
           }
-         * 
+         *
          */
 
         $begin = new \DateTime($from);
@@ -111,7 +111,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
     }
 
     function getDebit($from, $to, $customerId) {
-        $query = \Sinevia\Accounting\Business\Transaction::where('IsDebit', 'Yes');
+        $query = \Sinevia\Business\Business\Transaction::where('IsDebit', 'Yes');
         //$query = $query->where('CreatedAt', '>=', $from)->where('CreatedAt', '<=', $to);
         $query = $query->where('Date', '>=', $from)->where('Date', '<=', $to);
         if ($customerId != "") {
@@ -156,11 +156,11 @@ class BusinessController extends \Illuminate\Routing\Controller {
         $filterFrom = request('filter_from', date('Y-m-01', strtotime('-1year')));
         $filterTo = request('filter_to', date('Y-m-t'));
         $filterCustomerId = request('filter_customer_id', '');
-        $customerList = \Sinevia\Business\Models\Customer::whereStatus('Active')->get();
+        $customerList = [];//\Sinevia\Business\Models\Customer::whereStatus('Active')->get();
 
-        $income = $this->getBookings($filterFrom, $filterTo, $filterCustomerId);
-        $debit = $this->getDebit($filterFrom, $filterTo, $filterCustomerId);
-        $credit = $this->getCredit($filterFrom, $filterTo, $filterCustomerId);
+        $income = [];//$this->getBookings($filterFrom, $filterTo, $filterCustomerId);
+        $debit = [];//$this->getDebit($filterFrom, $filterTo, $filterCustomerId);
+        $credit = [];//$this->getCredit($filterFrom, $filterTo, $filterCustomerId);
         // Temporarily use Bookings together with transactions
         $temp = [];
         foreach ($credit as $k => $v) {
@@ -262,15 +262,15 @@ class BusinessController extends \Illuminate\Routing\Controller {
         $q = $q->orderBy($orderby, $sort);
 
         $statusList = [
-            \Sinevia\Accounting\Models\Invoice::STATUS_DRAFT => 'Draft',
-            \Sinevia\Accounting\Models\Invoice::STATUS_PAID => 'Paid',
-            \Sinevia\Accounting\Models\Invoice::STATUS_UNPAID => 'Unpaid',
-            \Sinevia\Accounting\Models\Invoice::STATUS_DELETED => 'Deleted',
+            \Sinevia\Business\Models\Invoice::STATUS_DRAFT => 'Draft',
+            \Sinevia\Business\Models\Invoice::STATUS_PAID => 'Paid',
+            \Sinevia\Business\Models\Invoice::STATUS_UNPAID => 'Unpaid',
+            \Sinevia\Business\Models\Invoice::STATUS_DELETED => 'Deleted',
         ];
 
         $invoices = $q->paginate($results_per_page);
 
-        return view('accounting::admin/invoice-manager', get_defined_vars());
+        return view('business::admin/invoice-manager', get_defined_vars());
 
         $user = $this->user;
         $business = $this->business;
@@ -340,7 +340,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
     }
 
     function getInvoiceUpdate() {
-        $invoice = \Sinevia\Accounting\Models\Invoice::find(request('InvoiceId'));
+        $invoice = \Sinevia\Business\Models\Invoice::find(request('InvoiceId'));
         if ($invoice == null) {
             return redirect()->back()->withErrors('Invoice not found');
         }
@@ -479,8 +479,8 @@ class BusinessController extends \Illuminate\Routing\Controller {
     }
 
     function getTransactionManager() {
-        $session_order_by = \Session::get('accounting_transaction_manager_by', 'Date');
-        $session_order_sort = \Session::get('accounting_transaction_manager_sort', 'asc');
+        $session_order_by = \Session::get('business_transaction_manager_by', 'Date');
+        $session_order_sort = \Session::get('business_transaction_manager_sort', 'asc');
 
         $filterId = request('filter_id', '');
         $filterStarts = request('filter_starts', '');
@@ -491,10 +491,10 @@ class BusinessController extends \Illuminate\Routing\Controller {
         $page = request('page', 0);
         $results_per_page = 20;
 
-        \Session::put('accounting_transaction_manager_by', $orderby); // Keep for session
-        \Session::put('accounting_transaction_manager_sort', $sort);  // Keep for session
+        \Session::put('business_transaction_manager_by', $orderby); // Keep for session
+        \Session::put('business_transaction_manager_sort', $sort);  // Keep for session
 
-        $q = \Sinevia\Accounting\Models\Transaction::getModel();
+        $q = \Sinevia\Business\Models\Transaction::getModel();
 
         if ($filterId) {
             $q = $q->orWhere('Id', 'LIKE', '%' . $filterId . '%');
@@ -527,11 +527,11 @@ class BusinessController extends \Illuminate\Routing\Controller {
             'Debit' => 'Debit',
         ];
 
-        return view('accounting::admin/transaction-manager', get_defined_vars());
+        return view('business::admin/transaction-manager', get_defined_vars());
     }
 
     function getTransactionUpdate() {
-        $transaction = \Sinevia\Accounting\Models\Transaction::find(request('TransactionId'));
+        $transaction = \Sinevia\Business\Models\Transaction::find(request('TransactionId'));
         if ($transaction == null) {
             return redirect()->back()->withErrors('Transaction not found');
         }
@@ -540,7 +540,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
         $description = request('Description', old('Title', $transaction->Description));
         $amount = request('Amount', old('Amount', $transaction->Amount));
         $date = request('Date', old('Date', $transaction->Date));
-        return view('accounting::admin/transaction-update', get_defined_vars());
+        return view('business::admin/transaction-update', get_defined_vars());
     }
 
     function postInvoiceCreateAjax() {
@@ -550,25 +550,25 @@ class BusinessController extends \Illuminate\Routing\Controller {
 
         $validator = \Validator::make(\Request::all(), $rules);
         if ($validator->fails()) {
-            return \Sinevia\Accounting\Helpers\Helper::error($validator->getMessageBag()->all());
+            return \Sinevia\Business\Helpers\Helper::error($validator->getMessageBag()->all());
         }
 
         $customerId = request('CustomerId', '');
 
-        $invoice = new \Sinevia\Accounting\Models\Invoice;
-        $invoice->Status = \Sinevia\Accounting\Models\Invoice::STATUS_DRAFT;
+        $invoice = new \Sinevia\Business\Models\Invoice;
+        $invoice->Status = \Sinevia\Business\Models\Invoice::STATUS_DRAFT;
         $invoice->CustomerId = $customerId;
 
         if ($invoice->save() === false) {
-            return \Sinevia\Accounting\Helpers\Helper::error('Invoice COULD NOT be created');
+            return \Sinevia\Business\Helpers\Helper::error('Invoice COULD NOT be created');
         }
 
         $invoice->Reference = $invoice->getReference(); // Generate reference
         $invoice->save();
 
-        return \Sinevia\Accounting\Helpers\Helper::success('Invoice successfully created', [
+        return \Sinevia\Business\Helpers\Helper::success('Invoice successfully created', [
                     'InvoiceId' => $invoice->Id,
-                    'InvoiceUrl' => \Sinevia\Accounting\Helpers\Links::adminInvoiceUpdate([
+                    'InvoiceUrl' => \Sinevia\Business\Helpers\Links::adminInvoiceUpdate([
                         'InvoiceId' => $invoice->Id,
                     ])
         ]);
@@ -595,17 +595,17 @@ class BusinessController extends \Illuminate\Routing\Controller {
     }
 
     function postInvoiceDelete() {
-        $invoice = \Sinevia\Accounting\Models\Invoice::find(request('InvoiceId'));
+        $invoice = \Sinevia\Business\Models\Invoice::find(request('InvoiceId'));
         if ($invoice == null) {
             return redirect()->back()->withErrors('Invoice not found');
         }
         \DB::beginTransaction();
         try {
-            \Sinevia\Accounting\Models\InvoiceItem::where('InvoiceId', $invoice->Id)->delete();
+            \Sinevia\Business\Models\InvoiceItem::where('InvoiceId', $invoice->Id)->delete();
             $invoice->delete();
 
             \DB::commit();
-            return redirect(\Sinevia\Accounting\Helpers\Links::adminInvoiceManager());
+            return redirect(\Sinevia\Business\Helpers\Links::adminInvoiceManager());
         } catch (Exception $e) {
             \DB::rollback();
             $error = "Invoice COULD NOT be deleted";
@@ -614,7 +614,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
     }
 
     function postInvoiceMoveToTrash() {
-        $invoice = \Sinevia\Accounting\Models\Invoice::find(request('InvoiceId'));
+        $invoice = \Sinevia\Business\Models\Invoice::find(request('InvoiceId'));
         if ($invoice == null) {
             return redirect()->back()->withErrors('Invoice not found');
         }
@@ -643,7 +643,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
 
         $validator = \Validator::make(\Request::all(), $rules);
         if ($validator->fails()) {
-            return \Sinevia\Accounting\Helpers\Helper::error($validator->getMessageBag()->all());
+            return \Sinevia\Business\Helpers\Helper::error($validator->getMessageBag()->all());
         }
 
         $title = request('Title', '');
@@ -654,7 +654,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
         $isCredit = strtolower($type) == 'credit' ? 'Yes' : 'No';
         $isDebit = strtolower($type) == 'debit' ? 'Yes' : 'No';
 
-        $transaction = new \Sinevia\Accounting\Models\Transaction;
+        $transaction = new \Sinevia\Business\Models\Transaction;
         $transaction->Title = $title;
         $transaction->Description = $description;
         $transaction->Date = date('Y-m-d', strtotime($date));
@@ -663,12 +663,12 @@ class BusinessController extends \Illuminate\Routing\Controller {
         $transaction->Amount = $amount;
 
         if ($transaction->save() === false) {
-            return \Sinevia\Accounting\Helpers\Helper::error('Transaction COULD NOT be created');
+            return \Sinevia\Business\Helpers\Helper::error('Transaction COULD NOT be created');
         }
 
-        return \Sinevia\Accounting\Helpers\Helper::success('Transaction successfully created', [
+        return \Sinevia\Business\Helpers\Helper::success('Transaction successfully created', [
                     'TransactionId' => $transaction->Id,
-                    'TransactionUrl' => \Sinevia\Accounting\Helpers\Links::adminTransactionUpdate([
+                    'TransactionUrl' => \Sinevia\Business\Helpers\Links::adminTransactionUpdate([
                         'TransactionId' => $transaction->Id,
                     ])
         ]);
@@ -698,7 +698,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
     }
 
     function postTransactionMoveToTrash() {
-        $transaction = \Sinevia\Accounting\Models\Transaction::find(request('TransactionId'));
+        $transaction = \Sinevia\Business\Models\Transaction::find(request('TransactionId'));
         if ($transaction == null) {
             return redirect()->back()->withErrors('Transaction not found');
         }
@@ -717,7 +717,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
     }
 
     function postTransactionUpdate() {
-        $transaction = \Sinevia\Accounting\Models\Transaction::find(request('TransactionId'));
+        $transaction = \Sinevia\Business\Models\Transaction::find(request('TransactionId'));
         if ($transaction == null) {
             return \Redirect::back()->withErrors('Transaction not found');
         }
@@ -762,7 +762,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
                     return redirect()->back();
                 }
                 \Session::flash('success', 'You successuly updated the transaction');
-                return redirect(\Sinevia\Accounting\Helpers\Links::adminTransactionManager());
+                return redirect(\Sinevia\Business\Helpers\Links::adminTransactionManager());
             }
         } catch (Exception $e) {
             \DB::rollback();
@@ -773,7 +773,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
 
     function postInvoiceUpdate() {
 
-        $invoice = \Sinevia\Accounting\Models\Invoice::find(request('InvoiceId'));
+        $invoice = \Sinevia\Business\Models\Invoice::find(request('InvoiceId'));
         if ($invoice == null) {
             return \Redirect::back()->withErrors('Invoice not found');
         }
@@ -837,7 +837,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
 
             // Remove delted items
             $submittedIds = array_column($items, 'Id');
-            \Sinevia\Accounting\Models\InvoiceItem::where('InvoiceId', $invoice->Id)
+            \Sinevia\Business\Models\InvoiceItem::where('InvoiceId', $invoice->Id)
                     ->whereNotIn('Id', $submittedIds)->delete();
 
             // Create or update existing
@@ -848,9 +848,9 @@ class BusinessController extends \Illuminate\Routing\Controller {
                 $units = $item['Units'];
                 $total = $item['Total'];
 
-                $invoiceItem = \Sinevia\Accounting\Models\InvoiceItem::find($id);
+                $invoiceItem = \Sinevia\Business\Models\InvoiceItem::find($id);
                 if (is_null($invoiceItem)) {
-                    $invoiceItem = new \Sinevia\Accounting\Models\InvoiceItem;
+                    $invoiceItem = new \Sinevia\Business\Models\InvoiceItem;
                     $invoiceItem->InvoiceId = $invoice->Id;
                 } else {
                     if ($invoiceItem->InvoiceId != $invoice->Id) {
@@ -874,7 +874,7 @@ class BusinessController extends \Illuminate\Routing\Controller {
                     return redirect()->back();
                 }
                 \Session::flash('success', 'You successuly updated the invoice');
-                return redirect(\Sinevia\Accounting\Helpers\Links::adminInvoiceManager());
+                return redirect(\Sinevia\Business\Helpers\Links::adminInvoiceManager());
             }
         } catch (Exception $e) {
             \DB::rollback();

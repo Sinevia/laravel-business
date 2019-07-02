@@ -37,9 +37,9 @@ class Customer extends BaseModel {
                         $table->string('EmailAddressInvoice', 255)->default('');
                         $table->string('EmailAddressQuote', 255)->default('');
                         $table->string('Phone', 255)->default('');
-                        $table->datetime('CreatedAt')->default('0000-00-00 00:00:00');
-                        $table->datetime('UpdatedAt')->default('0000-00-00 00:00:00');
-                        $table->datetime('DeletedAt')->default('0000-00-00 00:00:00');
+                        $table->datetime('CreatedAt')->nullable()->default(NULL);
+                        $table->datetime('UpdatedAt')->nullable()->default(NULL);
+                        $table->datetime('DeletedAt')->nullable()->default(NULL);
                         $table->text('Memo');
                     });
         }

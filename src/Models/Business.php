@@ -33,8 +33,10 @@ class Business extends BaseModel {
                         $table->string('Phone', 255)->default('');
                         $table->string('BankSortCode', 255)->default('');
                         $table->string('AccountNumber', 255)->default('');
-                        $table->datetime('Created')->default('0000-00-00 00:00:00');
-                        $table->datetime('Updated')->default('0000-00-00 00:00:00');
+                        $table->text('Memo')->nullable()->default(NULL);
+                        $table->datetime('CreatedAt')->nullable()->default(NULL);
+                        $table->datetime('UpdatedAt')->nullable()->default(NULL);
+                        $table->datetime('DeletedAt')->nullable()->default(NULL);
                     });
         }
 
