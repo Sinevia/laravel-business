@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Business;
+namespace Sinevia\Business\Models;
 
-class Business extends \Illuminate\Database\Eloquent\Model {
+class Business extends BaseModel {
 
     protected $table = 'snv_business_business';
     protected $primaryKey = 'Id';
