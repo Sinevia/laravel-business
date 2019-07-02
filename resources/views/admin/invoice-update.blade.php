@@ -8,8 +8,8 @@
         Edit Invoice: Ref. <?php echo $reference; ?>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="<?php echo \Sinevia\Accounting\Helpers\Links::adminHome(); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="<?php echo \Sinevia\Accounting\Helpers\Links::adminInvoiceManager(); ?>">Invoices</a></li>
+        <li><a href="<?php echo \Sinevia\Business\Helpers\Links::adminHome(); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="<?php echo \Sinevia\Business\Helpers\Links::adminInvoiceManager(); ?>">Invoices</a></li>
         <li class="active">Edit Invoice</li>
     </ol>
 </section>
@@ -17,7 +17,7 @@
 
 @section('webpage_content')
 
-@include('accounting::shared.navigation')
+@include('business::shared.navigation')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script>
@@ -29,18 +29,18 @@
 <div class="box box-info">
     <div class="box-header">
         <div>
-            <a href="<?php echo \Sinevia\Accounting\Helpers\Links::adminInvoiceManager(); ?>" class="btn btn-info">
+            <a href="<?php echo \Sinevia\Business\Helpers\Links::adminInvoiceManager(); ?>" class="btn btn-info">
                 <span class="glyphicon glyphicon-chevron-left"></span>
                 Cancel
             </a>
 
-            <a href="<?php echo Sinevia\Accounting\Helpers\Links::customerInvoiceView(['InvoiceId' => $invoice->Id]) ?>" target="_blank" class="btn btn-info pull-right" style="margin:0px 10px;">
+            <a href="<?php echo Sinevia\Business\Helpers\Links::customerInvoiceView(['InvoiceId' => $invoice->Id]) ?>" target="_blank" class="btn btn-info pull-right" style="margin:0px 10px;">
                 <i class="fa fa-eye"></i>
                 Preview / Print
             </a>
 
             <!--
-            <a href="whatsapp://send?text=<?php echo urlencode(Sinevia\Accounting\Helpers\Links::customerInvoiceView(['InvoiceId' => $invoice->Id])); ?>" target="_blank" class="btn btn-orange pull-right" style="margin:0px 10px;">
+            <a href="whatsapp://send?text=<?php echo urlencode(Sinevia\Business\Helpers\Links::customerInvoiceView(['InvoiceId' => $invoice->Id])); ?>" target="_blank" class="btn btn-orange pull-right" style="margin:0px 10px;">
                 <i class="fa fa-share"></i>
                 Send via WhatsApp
             </a>
@@ -278,7 +278,7 @@
     </div>
 
     <div class="box box-footer">
-        <a href="<?php echo \Sinevia\Accounting\Helpers\Links::adminInvoiceManager(); ?>" class="btn btn-info">
+        <a href="<?php echo \Sinevia\Business\Helpers\Links::adminInvoiceManager(); ?>" class="btn btn-info">
             <span class="glyphicon glyphicon-chevron-left"></span>
             Cancel
         </a>
