@@ -14,7 +14,7 @@
                     Note! This action cannot be undone.
                 </div>
 
-                <form name="FormInvoiceDelete" method="post" action="<?php echo \Sinevia\Accounting\Helpers\Links::adminInvoiceDelete(); ?>">
+                <form name="FormInvoiceDelete" method="post" action="<?php echo \Sinevia\Business\Helpers\Links::adminInvoiceDelete(); ?>">
                     <input type="hidden" name="InvoiceId" value="">
                     <?php echo csrf_field(); ?>
                 </form>
@@ -53,7 +53,7 @@
                     Are you sure you want to move this invoice to trash?
                 </div>
 
-                <form name="FormInvoiceMoveToTrash" method="post" action="<?php echo \Sinevia\Accounting\Helpers\Links::adminInvoiceMoveToTrash(); ?>">
+                <form name="FormInvoiceMoveToTrash" method="post" action="<?php echo \Sinevia\Business\Helpers\Links::adminInvoiceMoveToTrash(); ?>">
                     <input type="hidden" name="InvoiceId" value="">
                     <?php echo csrf_field(); ?>
                 </form>

@@ -24,7 +24,7 @@
 </script>
 
 
-@include('accounting::shared.navigation')
+@include('business::shared.navigation')
 
 <div class="box box-primary">
     <div class="box-header with-border">
@@ -121,7 +121,9 @@
                     <?php
                     $id = $invoice->Id;
                     $status = $invoice->Status;
-                    $customer = \Sinevia\Business\Models\Customer::find($invoice->CustomerId);
+                    $customerClass = config('business.models.customer');
+                    $customerInstance = new $customerClass;
+                    $customer = $customerInstance::find($invoice->CustomerId);
                     $customerName = is_null($customer) ? 'Unknown' : $customer->FirstName . ' ' . $customer->LastName;
                     $issuedOn = is_null($invoice->IssuedOn) ? date('d M Y', strtotime($invoice->CreatedAt)) : date('d M Y', strtotime($invoice->IssuedOn));
                     ?>

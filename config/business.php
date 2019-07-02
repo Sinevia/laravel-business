@@ -8,6 +8,9 @@ return [
     'routes' => true,
     // layout where the Business views will show into, i.e. admin.layouts.master
     'layout-master' => 'business::admin.layout',
+    'models' => [
+        'customer' => '\Sinevia\Business\Models\Customer',
+    ],
     'urls' => [
         'media-manager' => '/your-media-manager-url',
     ]

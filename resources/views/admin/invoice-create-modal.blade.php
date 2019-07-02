@@ -1,5 +1,5 @@
 <?php
-$customerList = App\Models\Customers\Customer::active()->orderBy('FirstName', 'ASC')->get();
+$customerList = [];//App\Models\Customers\Customer::active()->orderBy('FirstName', 'ASC')->get();
 ?>
 <!-- START: Invoice Create Dialog -->
 <div class="modal fade" id="ModalInvoiceCreate" style="display:none;">
@@ -51,7 +51,7 @@ $customerList = App\Models\Customers\Customer::active()->orderBy('FirstName', 'A
         $('#ModalInvoiceCreate').modal('show');
     }
     function formInvoiceCreateSubmit(options) {
-        var invoiceCreateUrl = '<?php echo \Sinevia\Accounting\Helpers\Links::adminInvoiceCreate(); ?>';
+        var invoiceCreateUrl = '<?php echo \Sinevia\Business\Helpers\Links::adminInvoiceCreate(); ?>';
         var data = $('.FormInvoiceCreate :input').serialize();
         $('#ModalInvoiceCreate button .fa-spinner').show();
 
