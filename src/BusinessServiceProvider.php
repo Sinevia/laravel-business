@@ -15,8 +15,8 @@ class BusinessServiceProvider extends ServiceProvider {
         $this->publishes([
             dirname(__DIR__) . '/config/business.php' => config_path('business.php'),
             $this->loadMigrationsFrom(dirname(__DIR__) . '/database/migrations'),
-            $this->loadViewsFrom(dirname(__DIR__) . '/resources/views', 'cms'),
-            //$this->loadRoutesFrom(dirname(__DIR__).'/routes.php'),            
+            $this->loadViewsFrom(dirname(__DIR__) . '/resources/views', 'business'),
+            //$this->loadRoutesFrom(dirname(__DIR__).'/routes.php'),
         ]);
     }
 
@@ -26,7 +26,7 @@ class BusinessServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-    
+
     }
 
 }
