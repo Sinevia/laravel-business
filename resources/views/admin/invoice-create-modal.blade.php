@@ -1,5 +1,5 @@
 <?php
-$customerList = [];//App\Models\Customers\Customer::active()->orderBy('FirstName', 'ASC')->get();
+$customerList = Sinevia\Business\Helpers\Helper::customerInstance()->whereStatus('Active')->orderBy('FirstName', 'ASC')->get();
 ?>
 <!-- START: Invoice Create Dialog -->
 <div class="modal fade" id="ModalInvoiceCreate" style="display:none;">
