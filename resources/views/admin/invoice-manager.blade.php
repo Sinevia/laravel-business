@@ -123,7 +123,7 @@
                     $status = $invoice->Status;
                     $customerClass = config('business.models.customer');
                     $customerInstance = new $customerClass;
-                    $customer = $customerInstance::find($invoice->CustomerId);
+                    $customer = Sinevia\Business\Helpers\Helper::customerInstance()->find($invoice->CustomerId);
                     $customerName = is_null($customer) ? 'Unknown' : $customer->FirstName . ' ' . $customer->LastName;
                     $issuedOn = is_null($invoice->IssuedOn) ? date('d M Y', strtotime($invoice->CreatedAt)) : date('d M Y', strtotime($invoice->IssuedOn));
                     ?>

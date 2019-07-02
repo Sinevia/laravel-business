@@ -4,6 +4,12 @@ namespace Sinevia\Business\Helpers;
 
 class Helper {
 
+    public static function customerInstance() {
+        $customerClass = config('business.models.customer');
+        $customerInstance = new $customerClass;
+        return $customerInstance;
+    }
+
     public static function auth($message = '', $data = []) {
         return json_encode(['status' => 'authenticate', 'message' => $message]);
     }
