@@ -181,14 +181,14 @@ class BusinessController extends \Illuminate\Routing\Controller {
         if ($invoice == null) {
             return redirect()->back()->withErrors('Invoice not found');
         }
-        $customer = \App\Models\Customers\Customer::find($invoice->CustomerId);
+        $customer = \Sinevia\Business\Models\Customer::find($invoice->CustomerId);
         $customerName = is_null($customer) ? 'Unknown customer' : $customer->FirstName . ' ' . $customer->LastName;
         $customerAddress1 = is_null($customer) ? 'Unknown customer' : $customer->Address1;
         $customerAddress2 = is_null($customer) ? 'Unknown customer' : $customer->Address2;
         $customerCity = is_null($customer) ? 'Unknown customer' : $customer->City;
         $customerProvince = is_null($customer) ? 'Unknown customer' : $customer->Province;
         $customerCountry = is_null($customer) ? '' : $customer->Country;
-        $country = \App\Models\Countries\Country::byIso2($customer->Country);
+        $country = \Sinevia\Business\Models\Country::byIso2($customer->Country);
         if (is_null($country) == false) {
             $customerCountry = $country->Name;
         }
